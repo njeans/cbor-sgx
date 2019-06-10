@@ -11,6 +11,7 @@ description = "CBOR support for serde."
 keywords = ["serde", "cbor", "serialization", "no_std"]
 categories = ["encoding"]
 edition = "2018"
+exclude = ["/sgx/*"]
 
 [badges]
 travis-ci = { repository = "pyfisch/cbor" }
@@ -18,16 +19,18 @@ maintenance = { status = "passively-maintained" }
 
 [dependencies]
 half = "1.2.0"
-serde = { version = "1.0.14", default-features = false }
+serde = { git = "https://github.com/mesalock-linux/serde-sgx" }
+sgx_tstd = { rev = "v1.1.0", git = "https://github.com/apache/teaclave-sgx-sdk.git", optional = true }
 
 [dev-dependencies]
-serde_derive = { version = "1.0.14", default-features = false }
+#serde_derive = { version = "1.0.14", default-features = false }
 
 [features]
-default = ["std"]
 # Uses `alloc` library and adds support for vector functions with
 # `no_std`.
+default = ["std", "mesalock_sgx"]
 alloc = ["serde/alloc"]
-std = ["serde/std" ]
+std = ["serde/std", "mesalock_sgx"]
+mesalock_sgx = ["sgx_tstd"]
 unsealed_read_write = []
 tags = []
