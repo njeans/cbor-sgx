@@ -5,8 +5,6 @@ use core::result;
 use serde::de;
 use serde::ser;
 #[cfg(feature = "std")]
-use std::error;
-#[cfg(feature = "std")]
 use std::io;
 
 /// This type represents all possible errors that can occur when serializing or deserializing CBOR
@@ -193,8 +191,8 @@ impl Error {
     }
 }
 
-#[cfg(feature = "std")]
-impl error::Error for Error {
+impl ser::StdError for Error {
+    #[cfg(feature = "std")]
     fn source(&self) -> Option<&(dyn error::Error + 'static)> {
         match self.0.code {
             ErrorCode::Io(ref err) => Some(err),
