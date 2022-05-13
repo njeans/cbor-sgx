@@ -193,7 +193,7 @@ impl Error {
 
 impl ser::StdError for Error {
     #[cfg(feature = "std")]
-    fn source(&self) -> Option<&(dyn error::Error + 'static)> {
+    fn source(&self) -> Option<&(dyn ser::StdError + 'static)> {
         match self.0.code {
             ErrorCode::Io(ref err) => Some(err),
             _ => None,
